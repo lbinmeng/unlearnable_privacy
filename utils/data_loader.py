@@ -196,33 +196,6 @@ def EPFLLoad(isEA=False):
 
     return x_session, y_session, s_session
 
-def EPFLnoClipLoad(isEA=False):
-    data_path = '../EEG_data/EPFL/processed_session_noclip/'
-    x_session, y_session, s_session = {}, {}, {}
-    for i in range(8):
-        data = scio.loadmat(data_path + f's{i}.mat')
-        x, y = data['x'][0], data['y'][0]
-        for session in range(len(x)):
-            x_temp, y_temp = x[session], y[session].squeeze()
-            if isEA:
-                x_temp, _ = align(x_temp.squeeze())
-                x_temp = x_temp[:, np.newaxis, :, :]
-
-            if session in x_session.keys():
-                x_session[session].append(x_temp)
-                y_session[session].append(y_temp)
-                s_session[session].extend([i] * len(x_temp))
-            else:
-                x_session[session] = [x_temp]
-                y_session[session] = [y_temp]
-                s_session[session] = [i] * len(x_temp)
-
-    for session in x_session.keys():
-        x_session[session] = np.concatenate(x_session[session], axis=0)
-        y_session[session] = np.concatenate(y_session[session], axis=0).squeeze()
-        s_session[session] = np.array(s_session[session])
-
-    return x_session, y_session, s_session
 
 def NICULoad(isEA=False):
     data_path = '../EEG_data/NICU/processed/'

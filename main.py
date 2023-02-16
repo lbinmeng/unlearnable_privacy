@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader, dataset
 from models import LoadModel, Classifier, Discriminator, CalculateOutSize
-from utils.data_loader import EPFLLoad, MI4CLoad, ERNLoad, NICULoad, MI109Load, EPFLnoClipLoad
+from utils.data_loader import EPFLLoad, MI4CLoad, ERNLoad, NICULoad, MI109Load
 from utils.pytorch_utils import init_weights, print_args, seed, weight_for_balanced_classes, bca_score
 from unlearnable_gen import unlearnable, unlearnable_optim
 
@@ -371,8 +371,6 @@ if __name__ == '__main__':
         x_session, y_session, s_session = ERNLoad(isEA=False)
     elif args.dataset == 'EPFL':
         x_session, y_session, s_session = EPFLLoad(isEA=False)
-    elif args.dataset == 'EPFLnoClip':
-        x_session, y_session, s_session = EPFLnoClipLoad(isEA=False)
     elif args.dataset == 'NICU':
         x_session, y_session, s_session = NICULoad(isEA=False)
     elif args.dataset == 'MI109':
